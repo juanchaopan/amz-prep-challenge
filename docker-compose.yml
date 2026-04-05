@@ -1,0 +1,59 @@
+services:
+  backend:
+    container_name: backend
+    image: mcr.microsoft.com/devcontainers/typescript-node:bookworm
+    volumes:
+      - ./backend:/app
+    user: node
+    working_dir: /app
+    ports:
+      - "3000:3000"
+    command: sleep infinity
+    networks:
+      - network
+    environment:
+      - WATCHPACK_POLLING=true
+      - WATCHPACK_POLLING_INTERVAL=1000
+      - NVIDIA_API_KEY=YOUR_NVIDIA_API_KEY_HERE
+      - NVIDIA_BASE_URL=https://integrate.api.nvidia.com/v1
+      - NVIDIA_LANGUAGE_MODEL=meta/llama-3.1-405b-instruct
+      - MONGO_HOST=mongo
+      - MONGO_PORT=27017
+      - MONGO_DB=amz_mongo_db
+      - MONGO_DB_USERNAME=amz_mongo_user
+      - MONGO_DB_PASSWORD=mongo_dev_password_123
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_DB=0
+      - REDIS_PASSWORD=redis_dev_password_123
+  mongo:
+    image: mongo:8.2.3-noble
+    container_name: mongo
+    restart: unless-stopped
+    volumes:
+      - mongo-data:/var/lib/mongo/data
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+    ports:
+      - "27017:27017"
+    networks:
+      - network
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=admin_password_123
+  redis:
+    image: redis:8.4.0
+    container_name: redis
+    restart: unless-stopped
+    command: ["redis-server", "--requirepass", "redis_dev_password_123"]
+    volumes:
+      - redis-data:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - network
+
+volumes:
+  mongo-data:
+  redis-data:
+networks:
+  network:
