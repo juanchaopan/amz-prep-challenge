@@ -1,6 +1,6 @@
-## AMZ Challenge
+# AMZ Challenge
 
-# Steps
+## Steps
 
 1. Replace `NVIDIA_API_KEY` with your NVIDIA API key in `docker-compose.yml`
 2. From the project root, run:
