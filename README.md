@@ -3,9 +3,12 @@
 # Steps
 
 1. Replace `NVIDIA_API_KEY` with your NVIDIA API key in `docker-compose.yml`
-2. From the project root, run `docker-compose up`
+2. From the project root, run:
+   ```powershell
+   docker-compose up
+   ```
 3. In a new terminal, run:
-   ```bash
+   ```powershell
    docker exec backend bash -c "npm install && npm start"
    ```
 4. In a new terminal, run:
